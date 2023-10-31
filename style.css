@@ -1,0 +1,113 @@
+.header img{
+    float:right;
+    width:160px;
+    height:160px;
+    background: #555;
+    margin-top: 10px;
+    
+}
+
+.header h1{
+    position:relative;
+    top:25px;
+    left:28px;
+    font-size:80px;
+    font-family: Brush Script MT ,cursive;
+    font-weight: bold;
+    
+}
+.header1 h2{
+    position:relative;
+    top:30px;
+    color: orange;
+    font-size:40px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+    font-size: 20px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+.row1
+{
+    background-color: green;
+}
+.row2
+{
+    background-color: yellow;
+}
+.row3{
+    background-color: orange;
+}
+.row4{
+    background-color: red;
+}
+.row5{
+    background-color: purple;
+}
+.row6{
+    background-color: maroon;
+}
+.para1{
+    font-size: 40px;
+    color: black;
+    position: relative;
+    left:100px;
+}
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh; /* Center vertically on the page */
+}
+.button1 {
+    width: 200px; /* Adjust the width for the size you want */
+    height: 100px; /* Half the width for an oval shape */
+    background-color: #3498db; /* Blue background color */
+    color: #fff;
+    border: none;
+    border-radius: 50%; /* 50% border-radius creates a circle */
+    font-size: 16px; /* Normal font size */
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+}
+
+.button1:hover {
+    background-color: #2980b9; /* Change color on hover */
+}
+#dataDisplay {
+    font-size: 40px;
+    margin-top: 25px;
+    text-align: center;
+  }
+.safety-status {
+    font-size: 60px;/* Center the text horizontally and vertically */
+  }
+  body {
+    background-image: url('bg3.jpg'); /* Replace with the actual file path to your image */
+    background-size: cover; /* This will scale the image to cover the entire background */
+}
+.scroll-list li {
+    color: white; /* Change the text color of the list items to white */
+    font-size: 25px;
+  }
+  .para1 {
+    color: white; /* Change the text color to white */
+  }
+  .center-table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Optional, for vertical centering */
+}

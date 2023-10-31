@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="style.css">
+<div class="header">
+    <img src="bg2.jpg" alt="logo" align="right">
+    <h1 style="color: red; text-align: center;">AIR QUALITY MONITORING</h1>
+</div>
+<head>
+    
+    <!-- Include Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-database-compat.js"></script>
+</head>
+  
+
+<body>
+
+<div class="header1">
+    <h2>MAJOR AIR POLLUTANTS</h2>
+    <marquee direction="up" behavior="scroll" scrollamount="5" scrolldelay="100">
+        
+    <ol class="scroll-list">
+         <li style="font-size: 25px";>ground-level ozone particle pollution (also known as particulate matter, including PM2.5 and PM10)</li>
+         <li style="font-size: 25px";>carbon monoxide(CO)</li>
+         <li style="font-size: 25px";>Sulfur dioxide(SO2)</li>
+         <li style="font-size: 25px";>Nitrogen dioxide (NO2)</li>
+         <li style="font-size: 25px";>Volatile Organic Compounds (VOCs)</li>
+         <li style="font-size: 25px";>Lead (Pb)</li>
+         <li style="font-size: 25px";>Ammonia (NH3)</li>
+         <li style="font-size: 25px";>Hazardous Air Pollutants (HAPs)</li>
+         <li style="font-size: 25px";>Particulate Matter (PM)</li>
+    </ol>  
+    </marquee>  
+    
+    
+</div>
+</br>
+</br>
+<div class="center-table">
+    <table border="1">
+        <tr>
+            <th>Daily AQI color</th>
+            <th>Levels of concern</th>
+            <th>Values of Index</th>
+            <th>Description of Air Quality</th>
+        </tr>
+        <tr class="row1">
+            <td>Green</td>
+            <td>Good</td>
+            <td>0 - 50</td>
+            <td>Air quality is satisfactory, and air pollution poses little or no risk</td>
+        </tr>
+        <tr class="row2">
+            <td>Yellow</td>
+            <td>Moderate</td>
+            <td>51 - 100</td>
+            <td>Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution.</td>
+        </tr>
+        
+        <tr class="row3">
+            <td>Orange</td>
+            <td>Unhealthty for Sensitive Groups</td>
+            <td>101 - 150</td>
+            <td>Members of sensitive groups may experience health effects. The general public is less likely to be affected.</td>
+        </tr>
+        <tr class="row4">
+            <td>Red</td>
+            <td>Unhealthy</td>
+            <td>151 - 200</td>
+            <td>Some members of the general public may experience health effects; members of sensitive groups may experience more serious health effects.</td>
+        </tr>
+        <tr class="row5">
+            <td>Purple</td>
+            <td>Very Unhealthy</td>
+            <td>201 - 300</td>
+            <td>Health alert: The risk of health effects is increased for everyone.</td>
+        </tr>
+        <tr class="row6">
+            <td>Maroon</td>
+            <td>Hazardous</td>
+            <td>301 and Higher</td>
+            <td>Health warning of emergency conditions: everyone is more likely to be affected.</td>
+        </tr>
+    </table>
+
+</div>
+</br>
+</br>
+<div>
+    <p class="para1">CHECK WHETHER YOU ARE LIVE GOOD ENVIRONMENT OR NOT</p>
+</div>
+<div class="centered-container">
+    <button id="bt1" class="button1"  onclick="getData()">MEASURE</button>
+</div>
+<div id="dataDisplay"></div>
+<div id="safetyStatus"></div>
+
+<script>
+  const firebaseConfig = {
+  apiKey: "AIzaSyAW3h_J5GXTq-O1YFj1N8K8ugi3MdxCcXk",
+  authDomain: "air-quality-monitoring-6775c.firebaseapp.com",
+  databaseURL: "https://air-quality-monitoring-6775c-default-rtdb.firebaseio.com",
+  projectId: "air-quality-monitoring-6775c",
+  storageBucket: "air-quality-monitoring-6775c.appspot.com",
+  messagingSenderId: "253822496070",
+  appId: "1:253822496070:web:41cb33a709f691fd120947",
+  measurementId: "G-D27MS9LRNF"
+};
+
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+        // Reference to the Firebase Realtime Database
+        var database = firebase.database();
+
+        // Function to retrieve and display data
+// Function to retrieve and display data
+function getData() {
+    console.log("Button clicked");
+    var dataDisplay = document.getElementById("dataDisplay");
+
+    // Reference to the data you want to retrieve (e.g., "Air_data" in this example)
+    var dataRef = database.ref("Air_data");
+
+    dataRef.once("value")
+        .then(function(snapshot) {
+            console.log("Data retrieved successfully");
+            var data = snapshot.val();
+
+            // Define safe ranges for your measured values
+            var safeRange = {
+                Temperature: { min: 0, max: 50 },
+                Humidity: { min: 0, max: 50 },
+                NO2:{ min: 0, max: 50},
+                CO:{min: 0, max:50},
+                SO2:{min:0,max:50}
+
+                // Define safe ranges for other parameters
+            };
+
+            // Check data against safe ranges
+            var isSafe = true;
+            for (var key in data) {
+                if (data.hasOwnProperty(key)) {
+                    for (var param in safeRange) {
+                        if (data[key][param] < safeRange[param].min || data[key][param] > safeRange[param].max) {
+                            isSafe = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (isSafe) {
+                dataDisplay.innerHTML = "Safe";
+                dataDisplay.style.color = "green";
+            } else {
+                dataDisplay.innerHTML = "Unsafe";
+                dataDisplay.style.color = "red";
+            }
+            dataDisplay.innerHTML = JSON.stringify(data, null, 2);
+            // Display the safety status
+           var safetyStatus = document.createElement("div");
+           safetyStatus.innerHTML = isSafe ? "Safe" : "Unsafe";
+           safetyStatus.className = "safety-status"; // Apply the CSS class
+           dataDisplay.appendChild(safetyStatus);
+
+        })
+        .catch(function(error) {
+            console.error("Error retrieving data: " + error);
+            dataDisplay.innerHTML = "An error occurred while retrieving data.";
+        });
+}
+</script>
+</body>
+</html>
